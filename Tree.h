@@ -5,10 +5,10 @@
 class Tree
 {
  private:
-  const int AMOUNT_OF_SPACES = 2;
+  const int AMOUNT_OF_SPACES = 5;
   BinaryNode* getSuccesor(BinaryNode* node);
   int findHeight(BinaryNode* node);
-  void printLine(BinaryNode** nodes, int arrSize, int height, int currHeight, int lineSize, int prevSideIndent);
+  void make2dTree(BinaryNode*** finalNodes, BinaryNode** currentNodes, int arrSize, int height, int currHeight, int lineSize, int prevSideIndent);
   void printCorrectSpaces(int num);
  public:
   BinaryNode* root;

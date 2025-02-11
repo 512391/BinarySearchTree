@@ -190,85 +190,89 @@ void Tree::printCorrectSpaces(int num)
     }
 }
 
-void Tree::printLine(BinaryNode** nodes, int arrSize, int height, int currHeight, int lineSize, int prevSideIndent)
-{  
+void Tree::make2dTree(BinaryNode*** finalNodes, BinaryNode** nodes, int arrSize, int height, int currHeight, int lineSize, int prevSideIndent)
+{
   if(height == currHeight)
     {
       bool shouldPrint = true;
       for(int i = 0; i < lineSize; i++)
-	{
-	  if(shouldPrint)
-	    {
-	      if(nodes[i/2] != nullptr)
-		{
-		  cout << nodes[i/2]->getData();
-		  printCorrectSpaces(nodes[i/2]->getData());
-		}
-	      else
-		{
-		  cout << "N";
-		  printCorrectSpaces(1);
-		}
-	      shouldPrint = false;
-	    }
-	  else
-	    {
-	      printCorrectSpaces(-1);
-
-	      shouldPrint = true;
-	    }
+        {
+          if(shouldPrint)
+            {
+              if(nodes[i/2] != nullptr)
+                {
+                  finalNodes[i][currHeight] = nodes[i/2];
+                }
+              else
+                {
+                  finalNodes[i][currHeight] = new BinaryNode(-2);
+                }
+              shouldPrint = false;
+            }
+          else
+            {
+              shouldPrint = true;
+            }
 	}
-
-      cout << endl;
-      
       return;
     }
-
+  
   int midIndent = prevSideIndent;
   int sideIndent = floor(prevSideIndent/2);
 
   BinaryNode** newNodeArray = new BinaryNode*[arrSize*2];
 
   int newNodeArrayIndex = 0;
+  int finalNodesIndex = 0;
+
+  cout << "In tree" << endl;
   
   for(int i = 0; i < sideIndent; i++)
     {
-      printCorrectSpaces(-1);
+      finalNodes[finalNodesIndex][currHeight] = new BinaryNode(-2);
+      finalNodesIndex++;
     }
 
   for(int i = 0; i < arrSize; i++)
     {
       if(nodes[i] != nullptr)
-	{
-	  cout << nodes[i]->getData();
-	  printCorrectSpaces(nodes[i]->getData());
-
-	  if(nodes[i]->getLeft() != nullptr)
+        {
+          finalNodes[finalNodesIndex][currHeight] = nodes[i];
+	  finalNodesIndex++;
+	  cout << "Inputted node" << endl;
+	  for(int i = 0; i < midIndent; i++)
 	    {
-	      newNodeArray[newNodeArrayIndex] = nodes[i]->getLeft();
+	      finalNodes[finalNodesIndex][currHeight] = new BinaryNode(-2);
+	      finalNodesIndex++;
 	    }
-	  newNodeArrayIndex++;
-	  if(nodes[i]->getRight() != nullptr)
+
+	  cout << "made spcaes" << endl;
+	  
+          if(nodes[i]->getLeft() != nullptr)
+            {
+              newNodeArray[newNodeArrayIndex] = nodes[i]->getLeft();
+            }
+          newNodeArrayIndex++;
+          if(nodes[i]->getRight() != nullptr)
             {
               newNodeArray[newNodeArrayIndex] = nodes[i]->getRight();
             }
           newNodeArrayIndex++;
-	}
+	  cout << "assigned new array" << endl;
+        }
       else
-	{
-	  cout << "N";
-	  printCorrectSpaces(1);
-	  newNodeArrayIndex += 2;
-	}
-      for(int i = 0; i < midIndent; i++)
-	{
-	  printCorrectSpaces(-1);
-	}
+        {
+          finalNodes[finalNodesIndex][currHeight] = nodes[i];
+          for(int i = 0; i < midIndent; i++)
+            {
+              finalNodes[finalNodesIndex][currHeight] = new BinaryNode(-1);
+              finalNodesIndex++;
+            }
+
+          newNodeArrayIndex += 2;
+        }
     }
-
-  cout << endl << endl << endl;
-
-  printLine(newNodeArray, arrSize*2, height, currHeight+1, lineSize, sideIndent);
+  make2dTree(finalNodes, newNodeArray, arrSize*2, height, currHeight+1, lineSize, sideIndent);
 }
 
 void Tree::print()
@@ -277,6 +281,61 @@ void Tree::print()
   rootArr[0] = Tree::root;
 
   int height = findHeight(Tree::root)+1;
+
+  int lineSize = pow(2,height)-1;
   
-  printLine(rootArr, 1, height, 1, pow(2, height)-1, pow(2, height)-1);
+  BinaryNode*** finalNodes = new BinaryNode**[lineSize];
+  for(int i = 0; i < pow(2,height)-1; i++)
+    {
+      finalNodes[i] = new BinaryNode*[height];
+    }
+  
+  make2dTree(finalNodes, rootArr, 1, height, 1, lineSize, floor(lineSize/2));
+
+  cout << "has tree" << endl;
+
+for(int i = 0; i <  pow(2,height)-1; i++)
+    {
+      for(int j = 0; j < height; j++)
+        {
+          if(finalNodes[i][j] == nullptr)
+            {
+              cout << " ";
+            }
+          else
+            {
+              cout << finalNodes[i][j]->getData();
+            }
+        }
+      cout << endl;
+    }
+
+
+ cout << endl << endl << endl;
+  
+  for(int i = 0; i <  pow(2,height)-1; i++)
+    {
+      for(int j = 0; j < height; j++)
+	{
+	  if(finalNodes[i][j] == nullptr)
+	    {
+	      printCorrectSpaces(-1);
+	    }
+	  else if(finalNodes[i][j]->getData() == -2)
+	    {
+	      printCorrectSpaces(-1);
+	    }
+	  else if(finalNodes[i][j]->getData() == -1)
+	    {
+	      cout << "N";
+	      printCorrectSpaces(0);
+	    }
+	  else
+	    {
+	      cout << finalNodes[i][j]->getData();
+	      printCorrectSpaces(finalNodes[i][j]->getData());
+	    }
+	}
+      cout << endl;
+    }
 }

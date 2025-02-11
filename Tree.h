@@ -1,10 +1,13 @@
 #include<iostream>
+#include<vector>
 #include "BinaryNode.h"
 
 class Tree
 {
  private:
   BinaryNode* getSuccesor(BinaryNode* node);
+  int findHeight(BinaryNode* node);
+  void printLine(BinaryNode** nodes, int arrSize, int height, int currHeight, int lineSize, int prevSideIndent);
   
  public:
   BinaryNode* root;

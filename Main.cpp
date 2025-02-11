@@ -72,11 +72,13 @@ int main()
 
 tree->add(2, tree->root);
 tree->add(3, tree->root);
-tree->add(8, tree->root);
+tree->add(0, tree->root);
 tree->add(1, tree->root);
 tree->add(4, tree->root);
  cout << "added" << endl;
 
+ tree->print();
+ 
  if(tree->search(tree->root, 8))
    cout << "found 8\n";
  
@@ -88,6 +90,8 @@ tree->add(4, tree->root);
  if(tree->search(tree->root, 8))
    cout << "found 8\n";
  
-if(tree->search(tree->root, 4))
-   cout << "found 4\n";
+ if(tree->search(tree->root, 4))
+  cout << "found 4\n";
+
+ tree->print();
 }

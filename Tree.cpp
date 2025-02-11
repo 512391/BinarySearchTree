@@ -1,4 +1,5 @@
 #include<iostream>
+#include<cmath>
 #include"Tree.h"
 
 using namespace std;
@@ -40,6 +41,7 @@ bool Tree::search(BinaryNode* node, int i)
 {
   if(node == nullptr)
     {
+      cout << "null" << endl;
       return false;
     }
 
@@ -79,8 +81,12 @@ BinaryNode* Tree::remove(BinaryNode* nodeParent, BinaryNode* node, int i)
       return nullptr;
     }
 
+  cout << "Current number: " << node->getData() << endl;
+  
   if(node->getData() == i)
     {
+      cout << "removing something: " << i << endl;
+      
       BinaryNode* toReturn  = new BinaryNode(node->getData());
       if(nodeParent == nullptr)
 	{
@@ -115,8 +121,14 @@ BinaryNode* Tree::remove(BinaryNode* nodeParent, BinaryNode* node, int i)
 	    {
 	      nodeParent->setLeft(success);
 	    }
-	  success->setLeft(node->getLeft());
-	  success->setRight(node->getRight());
+	  if(node->getLeft() != success)
+	    {
+	      success->setLeft(node->getLeft());
+	    }
+	  if(node->getRight() != success)
+            {
+	      success->setRight(node->getRight());
+	    }
 	}
       else if(node->getLeft() != nullptr)
 	{
@@ -126,11 +138,12 @@ BinaryNode* Tree::remove(BinaryNode* nodeParent, BinaryNode* node, int i)
 	{
 	  nodeParent->setRight(node->getRight());
 	}
+      
       delete node;
       return toReturn;
     }
 
-  if(node->getData() > i)
+  if(node->getData() < i)
     {
       Tree::remove(node, node->getRight(), i);
     }
@@ -140,7 +153,103 @@ BinaryNode* Tree::remove(BinaryNode* nodeParent, BinaryNode* node, int i)
     }
 }
 
+int Tree::findHeight(BinaryNode* node)
+{
+  if(node == nullptr)
+    {
+      return -1;
+    }
+
+  int left = findHeight(node->getLeft());
+  int right = findHeight(node->getRight());
+
+  return max(left, right)+1;
+}
+
+void Tree::printLine(BinaryNode** nodes, int arrSize, int height, int currHeight, int lineSize, int prevSideIndent)
+{
+  if(height == currHeight)
+    {
+      bool shouldPrint = true;
+      for(int i = 0; i < lineSize; i++)
+	{
+	  if(shouldPrint)
+	    {
+	      if(nodes[i/2] != nullptr)
+		{
+		  cout << nodes[i/2]->getData() << "       ";
+		}
+	      else
+		{
+		  cout << "N       ";
+		}
+	      shouldPrint = false;
+	    }
+	  else
+	    {
+	      cout << "\t";
+
+	      shouldPrint = true;
+	    }
+	}
+
+      cout << endl;
+      
+      return;
+    }
+
+  int midIndent = prevSideIndent;
+  int sideIndent = floor(prevSideIndent/2);
+
+  BinaryNode** newNodeArray = new BinaryNode*[arrSize*2];
+
+  int newNodeArrayIndex = 0;
+  
+  for(int i = 0; i < sideIndent; i++)
+    {
+      cout << "\t";
+    }
+
+  for(int i = 0; i < arrSize; i++)
+    {
+      if(nodes[i] != nullptr)
+	{
+	  cout << nodes[i]->getData() << "       ";
+
+	  if(nodes[i]->getLeft() != nullptr)
+	    {
+	      newNodeArray[newNodeArrayIndex] = nodes[i]->getLeft();
+	    }
+	  newNodeArrayIndex++;
+	  if(nodes[i]->getRight() != nullptr)
+            {
+              newNodeArray[newNodeArrayIndex] = nodes[i]->getRight();
+            }
+          newNodeArrayIndex++;
+	}
+      else
+	{
+	  cout << "N       ";
+
+	  newNodeArrayIndex += 2;
+	}
+      for(int i = 0; i < midIndent; i++)
+	{
+	  cout << "\t";
+	}
+    }
+
+  cout << endl;
+
+  printLine(newNodeArray, arrSize*2, height, currHeight+1, lineSize, sideIndent);
+}
+
 void Tree::print()
 {
+  BinaryNode** rootArr = new BinaryNode*[1];
+  rootArr[0] = Tree::root;
+
+  int height = findHeight(Tree::root)+1;
   
+  printLine(rootArr, 1, height, 1, pow(2, height)-1, pow(2, height)-1);
 }

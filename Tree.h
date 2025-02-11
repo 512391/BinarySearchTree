@@ -8,7 +8,7 @@ class Tree
   BinaryNode* getSuccesor(BinaryNode* node);
   int findHeight(BinaryNode* node);
   void printLine(BinaryNode** nodes, int arrSize, int height, int currHeight, int lineSize, int prevSideIndent);
-  
+  void printCorrectSpaces(int num);
  public:
   BinaryNode* root;
   void add(int i, BinaryNode* node);

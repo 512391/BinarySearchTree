@@ -66,18 +66,16 @@ using namespace std;
 int main()
 {
   Tree* tree= new Tree();
-  tree->add(5, tree->root);
-  tree->add(6, tree->root);
+  tree->add(53, tree->root);
+  tree->add(60, tree->root);
   cout << "added" << endl;
 
-tree->add(2, tree->root);
-tree->add(3, tree->root);
-tree->add(0, tree->root);
-tree->add(1, tree->root);
-tree->add(4, tree->root);
+tree->add(21, tree->root);
+tree->add(33, tree->root);
+tree->add(50, tree->root);
+tree->add(15, tree->root);
+tree->add(45, tree->root);
  cout << "added" << endl;
-
- tree->print();
  
  if(tree->search(tree->root, 8))
    cout << "found 8\n";

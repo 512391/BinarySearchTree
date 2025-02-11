@@ -169,6 +169,11 @@ int Tree::findHeight(BinaryNode* node)
 void Tree::printCorrectSpaces(int num)
 {
   int digits = 0;
+  
+  if(num == -1)
+    {
+      cout << " ";
+    }
 
   while(num != 0)
     {
@@ -179,11 +184,6 @@ void Tree::printCorrectSpaces(int num)
   
   int spaces = AMOUNT_OF_SPACES-digits;
 
-  if(num == -1)
-    {
-      spaces = AMOUNT_OF_SPACES;
-    }
-  
   for(int i = 0; i < spaces; i++)
     {
       cout << " ";
@@ -191,7 +191,7 @@ void Tree::printCorrectSpaces(int num)
 }
 
 void Tree::printLine(BinaryNode** nodes, int arrSize, int height, int currHeight, int lineSize, int prevSideIndent)
-{
+{  
   if(height == currHeight)
     {
       bool shouldPrint = true;
@@ -207,7 +207,7 @@ void Tree::printLine(BinaryNode** nodes, int arrSize, int height, int currHeight
 	      else
 		{
 		  cout << "N";
-		  printCorrectSpaces(10);
+		  printCorrectSpaces(1);
 		}
 	      shouldPrint = false;
 	    }
@@ -257,7 +257,7 @@ void Tree::printLine(BinaryNode** nodes, int arrSize, int height, int currHeight
       else
 	{
 	  cout << "N";
-	  printCorrectSpaces(10);
+	  printCorrectSpaces(1);
 	  newNodeArrayIndex += 2;
 	}
       for(int i = 0; i < midIndent; i++)

@@ -75,6 +75,11 @@ tree->add(33, tree->root);
 tree->add(50, tree->root);
 tree->add(15, tree->root);
 tree->add(45, tree->root);
+ tree->add(769, tree->root);
+tree->add(6, tree->root);
+tree->add(3, tree->root);
+tree->add(4, tree->root);
+
  cout << "added" << endl;
  
  if(tree->search(tree->root, 8))

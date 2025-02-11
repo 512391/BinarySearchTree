@@ -177,8 +177,13 @@ void Tree::printCorrectSpaces(int num)
       digits++;
     }
   
-  int spaces = 8-digits;
+  int spaces = AMOUNT_OF_SPACES-digits;
 
+  if(num == -1)
+    {
+      spaces = AMOUNT_OF_SPACES;
+    }
+  
   for(int i = 0; i < spaces; i++)
     {
       cout << " ";
@@ -201,13 +206,14 @@ void Tree::printLine(BinaryNode** nodes, int arrSize, int height, int currHeight
 		}
 	      else
 		{
-		  cout << "N       ";
+		  cout << "N";
+		  printCorrectSpaces(10);
 		}
 	      shouldPrint = false;
 	    }
 	  else
 	    {
-	      cout << "\t";
+	      printCorrectSpaces(-1);
 
 	      shouldPrint = true;
 	    }
@@ -227,7 +233,7 @@ void Tree::printLine(BinaryNode** nodes, int arrSize, int height, int currHeight
   
   for(int i = 0; i < sideIndent; i++)
     {
-      cout << "\t";
+      printCorrectSpaces(-1);
     }
 
   for(int i = 0; i < arrSize; i++)
@@ -250,17 +256,17 @@ void Tree::printLine(BinaryNode** nodes, int arrSize, int height, int currHeight
 	}
       else
 	{
-	  cout << "N       ";
-
+	  cout << "N";
+	  printCorrectSpaces(10);
 	  newNodeArrayIndex += 2;
 	}
       for(int i = 0; i < midIndent; i++)
 	{
-	  cout << "\t";
+	  printCorrectSpaces(-1);
 	}
     }
 
-  cout << endl;
+  cout << endl << endl << endl;
 
   printLine(newNodeArray, arrSize*2, height, currHeight+1, lineSize, sideIndent);
 }

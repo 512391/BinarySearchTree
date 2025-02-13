@@ -227,7 +227,6 @@ void Tree::make2dTree(BinaryNode*** finalNodes, BinaryNode** nodes, int arrSize,
   
   for(int i = 0; i < sideIndent; i++)
     {
-      finalNodes[finalNodesIndex][currHeight] = new BinaryNode(-2);
       finalNodesIndex++;
     }
 
@@ -239,7 +238,6 @@ void Tree::make2dTree(BinaryNode*** finalNodes, BinaryNode** nodes, int arrSize,
 	  finalNodesIndex++;
       	  for(int i = 0; i < midIndent; i++)
 	    {
-	      finalNodes[finalNodesIndex][currHeight] = new BinaryNode(-2);
 	      finalNodesIndex++;
 	    }
 	  
@@ -260,7 +258,6 @@ void Tree::make2dTree(BinaryNode*** finalNodes, BinaryNode** nodes, int arrSize,
 	  finalNodesIndex++;
           for(int i = 0; i < midIndent; i++)
             {
-              finalNodes[finalNodesIndex][currHeight] = new BinaryNode(-1);
               finalNodesIndex++;
             }
 
@@ -302,15 +299,6 @@ void Tree::print()
 	  if(finalNodes[i][j] == nullptr)
 	    {
 	      printCorrectSpaces(-1);
-	    }
-	  else if(finalNodes[i][j]->getData() == -2)
-	    {
-	      printCorrectSpaces(-1);
-	    }
-	  else if(finalNodes[i][j]->getData() == -1)
-	    {
-	
-	      printCorrectSpaces(0);
 	    }
 	  else
 	    {

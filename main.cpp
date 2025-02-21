@@ -40,9 +40,7 @@ int* getFileNums()
 	  }
 	
         while (inputFile.get(currentChar)) 
-        {
-	  cout << currentChar;
-	  
+        {	  
 	//checks if it should start calculating the number it just read
             if (currentChar == ' ') 
             {
@@ -88,12 +86,9 @@ int main()
 
   int currentNum = numbers[0];
   int index = 0;
-
-  cout << "Current num: " << currentNum;
   
   while(currentNum != -1)
     {
-      cout << "On: " << currentNum << ", ";
       tree->add(currentNum, tree->root);
       index++;
       currentNum = numbers[index];

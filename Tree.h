@@ -10,6 +10,7 @@ class Tree
   int findHeight(BinaryNode* node);
   void make2dTree(BinaryNode*** finalNodes, BinaryNode** currentNodes, int arrSize, int height, int currHeight, int lineSize, int prevSideIndent);
   void printCorrectSpaces(int num);
+  void trimPrintArray(int width, int height, BinaryNode*** nodes, int* bottomTopIndicies);
  public:
   BinaryNode* root;
   void add(int i, BinaryNode* node);

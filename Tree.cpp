@@ -66,6 +66,11 @@ BinaryNode* Tree::getSuccesor(BinaryNode* node)
 {
   BinaryNode* currentNode = node->getRight();
 
+  if(currentNode == nullptr)
+    {
+      currentNode = node->getLeft();
+    }
+  
   while(currentNode->getLeft() != nullptr)
     {
       currentNode = currentNode->getLeft();
@@ -134,9 +139,22 @@ BinaryNode* Tree::remove(BinaryNode* nodeParent, BinaryNode* node, int i)
 	{
 	  nodeParent->setLeft(node->getLeft());
 	}
+      else if(node->getRight() != nullptr)
+	{
+	  BinaryNode* success = getSucessor(node);
+	  
+	  nodeParent->setRight(node->getRight());
+	}
       else
 	{
-	  nodeParent->setRight(node->getRight());
+	  if(nodeParent->getRight() == node)
+            {
+              nodeParent->setRight(nullptr);
+            }
+          else
+            {
+              nodeParent->setLeft(nullptr);
+            }
 	}
       
       delete node;
@@ -170,23 +188,25 @@ void Tree::printCorrectSpaces(int num)
 {
   int digits = 0;
   
-  if(num == -1)
+  if(num == -1 || num == 0)
     {
-      cout << " ";
+      cout << ' ';
     }
-
+  else
+    {
   while(num != 0)
     {
       num = num/10;
 
       digits++;
     }
+    }
   
   int spaces = AMOUNT_OF_SPACES-digits;
 
   for(int i = 0; i < spaces; i++)
     {
-      cout << " ";
+      cout << ' ';
     }
 }
 
@@ -195,6 +215,7 @@ void Tree::make2dTree(BinaryNode*** finalNodes, BinaryNode** nodes, int arrSize,
   if(height == currHeight)
     {
       bool shouldPrint = true;
+      
       for(int i = 0; i < lineSize/2; i++)
         {
           if(shouldPrint)
@@ -205,7 +226,7 @@ void Tree::make2dTree(BinaryNode*** finalNodes, BinaryNode** nodes, int arrSize,
                 }
               else
                 {
-                  finalNodes[i][currHeight] = new BinaryNode(-2);
+                  finalNodes[i][currHeight] = nullptr;
                 }
               shouldPrint = false;
             }
@@ -222,6 +243,11 @@ void Tree::make2dTree(BinaryNode*** finalNodes, BinaryNode** nodes, int arrSize,
 
   BinaryNode** newNodeArray = new BinaryNode*[arrSize*2];
 
+  for(int i = 0; i < arrSize*2; i++)
+    {
+      newNodeArray[i] = nullptr;
+    }
+  
   int newNodeArrayIndex = 0;
   int finalNodesIndex = 0;
   
@@ -265,6 +291,8 @@ void Tree::make2dTree(BinaryNode*** finalNodes, BinaryNode** nodes, int arrSize,
         }
     }
 
+  delete[] nodes;
+  
   make2dTree(finalNodes, newNodeArray, arrSize*2, height, currHeight+1, lineSize, sideIndent);
 }
 
@@ -276,10 +304,10 @@ void Tree::print()
   int height = findHeight(Tree::root)+1;
 
   int lineSize = pow(2,height)-1;
-  int topDownSize = pow(2,height-1);
+  int topDownSize = pow(2,height);
   
   BinaryNode*** finalNodes = new BinaryNode**[topDownSize];
-  for(int i = 0; i < pow(2,height)-1; i++)
+  for(int i = 0; i < topDownSize; i++)
     {
       finalNodes[i] = new BinaryNode*[height];
       for(int j = 0; j < height; j++)
@@ -288,11 +316,13 @@ void Tree::print()
 	}
     }
 
-  cout << height << endl;
-  
   make2dTree(finalNodes, rootArr, 1, height, 1, lineSize, floor(lineSize/2));
+
+  int* indicies = new int[2];
+
+  trimPrintArray(topDownSize, height, finalNodes, indicies);
   
-  for(int i = 0; i < topDownSize; i++)
+  for(int i = indicies[0]; i < indicies[1]; i++)
     {
       for(int j = 0; j < height; j++)
 	{
@@ -308,4 +338,35 @@ void Tree::print()
 	}
       cout << endl;
     }
+  for(int i = 0; i <topDownSize; i++)
+    {
+      delete[] finalNodes[i];
+    }
+  delete[] finalNodes;
+}
+
+
+void Tree::trimPrintArray(int width, int height, BinaryNode*** nodes, int* bottomTopIndicies)
+{
+  int lastIndex = 0;
+  int firstIndex = 0;
+  bool lookingForFirst = true;
+   for(int i = 0; i < width; i++)
+    {
+      for(int j = 0; j < height; j++)
+        {
+          if(nodes[i][j] != nullptr)
+            {
+	      if(lookingForFirst)
+		{
+		  firstIndex = i;
+		  lookingForFirst = false;
+		}
+	      lastIndex = i;
+            }
+        }
+    }
+
+   bottomTopIndicies[0] = firstIndex;
+   bottomTopIndicies[1] = lastIndex;
 }

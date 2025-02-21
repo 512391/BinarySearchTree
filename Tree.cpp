@@ -420,8 +420,6 @@ void Tree::print()
 	  finalNodes[i][j] = nullptr;
 	}
     }
-
-  cout << "height: " <<height << endl;
   
   //makes array
   make2dTree(finalNodes, rootArr, 1, height, 1, lineSize, floor(lineSize/2));

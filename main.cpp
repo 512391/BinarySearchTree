@@ -3,7 +3,11 @@
 #include<fstream>
 #include<cmath>
 using namespace std;
-
+/*
+     author: jay williamson
+     date: 2/21/2025
+     this si the main it just gets input and does stuff to the tree
+ */
 int* getFileNums()
 {
   char* input = new char[20];
@@ -78,15 +82,18 @@ int main()
   cout << "1 for input from console or 2 from file\n";
   cin >> input;
 
-    
+
+  //makes new tree
   Tree* tree= new Tree();
   if(input == 2)
     {
+      //gets the numbers as an array
   int* numbers = getFileNums();
 
   int currentNum = numbers[0];
   int index = 0;
-  
+
+  //adds ass the numbers
   while(currentNum != -1)
     {
       tree->add(currentNum, tree->root);
@@ -99,6 +106,7 @@ int main()
  tree->print();
     }
 
+  //gets input
   cout << "-1 to quit, -2 to print, -3 to delete, -4 for find, -5 for input number \n";
   cin >> input;
   while(input != -1)

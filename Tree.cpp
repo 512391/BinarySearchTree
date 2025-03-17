@@ -420,7 +420,6 @@ void Tree::print()
 	  finalNodes[i][j] = nullptr;
 	}
     }
-  
   //makes array
   make2dTree(finalNodes, rootArr, 1, height, 1, lineSize, floor(lineSize/2));
 
@@ -430,7 +429,7 @@ void Tree::print()
   trimPrintArray(topDownSize, height, finalNodes, indicies);
 
   //prints and does diffrent depending on if condensed or not
-  for(int i = indicies[0]; i <= indicies[1]; i++)
+  for(int i = indicies[1]; i >= indicies[0]; i--)
     {
       bool isEmpty = true;
       for(int j = 0; j < height; j++)

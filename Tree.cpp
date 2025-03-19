@@ -180,7 +180,7 @@ BinaryNode* Tree::remove(BinaryNode* nodeParent, BinaryNode* node, int i)
 	  //get the successor and parent
 	  BinaryNode* success = getSuccesor(node);
 	  BinaryNode* parent  = getParent(Tree::root, success->getData());
-	  cout << "Parent: " << parent->getData() << endl;
+	  cout << success->getData() << "Parent: " << parent->getData() << endl;
 	  //set success parets children
 	  if(parent != node)
             {
@@ -210,7 +210,7 @@ BinaryNode* Tree::remove(BinaryNode* nodeParent, BinaryNode* node, int i)
 	    }
 	  else
 	    {
-	      success->setLeft(nullptr);
+	      success->setRight(nullptr);
 	    }
 	}//checks if only has right child
       else if(node->getRight() != nullptr)
@@ -429,7 +429,7 @@ void Tree::print()
   trimPrintArray(topDownSize, height, finalNodes, indicies);
 
   //prints and does diffrent depending on if condensed or not
-  for(int i = indicies[1]; i >= indicies[0]; i--)
+  for(int i = topDownSize-1; i >=0; i--)
     {
       bool isEmpty = true;
       for(int j = 0; j < height; j++)
